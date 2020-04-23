@@ -1,0 +1,25 @@
+{
+    "cases": {
+        "total": 11057,
+        "past24hrs": 544,
+        "sindh": 3671,
+        "punjab": 4767,
+        "islamabad": 214,
+        "balochistan": 607,
+        "kp": 1453,
+        "ajk": 290,
+        "gb": 55
+    },
+    "deaths": {
+        "past24hrs": 11,
+        "total": 235
+    },
+    "recovered": {
+        "total": 2337
+    },
+    "tests": {
+        "past24hrs": 6700,
+        "total": 124549
+    },
+    "lastupdated": "2020-04-23T18:04:00.000Z"
+}

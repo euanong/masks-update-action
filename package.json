@@ -1,0 +1,26 @@
+{
+  "name": "masks-update-action",
+  "version": "1.0.0",
+  "description": "Updates the https://maskbanao.com/ GitHub repository periodically with new data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eohomegrownapps/masks-update-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eohomegrownapps/masks-update-action/issues"
+  },
+  "homepage": "https://github.com/eohomegrownapps/masks-update-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1",
+    "cheerio": "^1.0.0-rc.3",
+    "puppeteer": "^3.0.1"
+  }
+}
