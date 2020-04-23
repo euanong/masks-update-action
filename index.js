@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const cheerio = require('cheerio');
 const rp = require('request-promise');
-const url = 'http://covid.gov.pk/';
+const url = 'https://cors-anywhere.herokuapp.com/http://covid.gov.pk/';
 
 function getVal(cs,sel){
     var elem = cs.find(sel).next();
@@ -62,7 +62,9 @@ function parseData(html){
     }
 
     result["lastupdated"]=(new Date(arr[1]+" "+arr[2]+" "+arr[3]+" "+arr[4]+":"+arr[5]+" UTC+05:00")).toJSON();
-    core.setOutput("jsondata", JSON.stringify(result));
+    var jsonresult = JSON.stringify(result);
+    console.log(jsonresult);
+    core.setOutput("jsondata", jsonresult);
     return;
 }
 
@@ -80,7 +82,13 @@ async function run() {
         core.setFailed(error.message);
     }*/
     try { 
-        rp({uri:url,gzip:true}).then(parseData);
+        rp({
+            uri:url,
+            gzip:true,
+            headers: {
+                'x-requested-with': 'XMLHttpRequest'
+            }
+        }).then(parseData);
     } 
     catch (error) {
         core.setFailed(error.message);
