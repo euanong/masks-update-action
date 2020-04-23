@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
+const rp = require('request-promise');
 const url = 'http://covid.gov.pk/';
 
 function getVal(cs,sel){
@@ -67,7 +67,7 @@ function parseData(html){
 }
 
 async function run() {
-    try { 
+    /*try { 
         await puppeteer.launch().then(async browser => {
             const page = await browser.newPage();
             await page.goto(url);
@@ -75,6 +75,12 @@ async function run() {
             await browser.close();
             parseData(html);
         });
+    } 
+    catch (error) {
+        core.setFailed(error.message);
+    }*/
+    try { 
+        rp({uri:url,gzip:true}).then(parseData);
     } 
     catch (error) {
         core.setFailed(error.message);
