@@ -1,6 +1,5 @@
 name: 'MasksBanao Data Update'
 description: 'Updates https://maskbanao.com/ with data from http://covid.gov.pk/'
-inputs:
 outputs:
   jsondata: # id of output
     description: 'JSON data (as in template.json)'
