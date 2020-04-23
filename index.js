@@ -62,7 +62,7 @@ function parseData(html){
     }
 
     result["lastupdated"]=(new Date(arr[1]+" "+arr[2]+" "+arr[3]+" "+arr[4]+":"+arr[5]+" UTC+05:00")).toJSON();
-    core.setOutput("json-data", JSON.stringify(result));
+    core.setOutput("jsondata", JSON.stringify(result));
     return;
 }
 
