@@ -21,8 +21,8 @@
     "@actions/core": "^1.2.3",
     "@actions/github": "^2.1.1",
     "cheerio": "^1.0.0-rc.3",
+    "uri-js": "^4.2.2",
     "request": "^2.88.2",
-    "request-promise": "^4.2.5",
-    "uri-js": "^4.2.2"
+    "request-promise": "^4.2.5"
   }
 }
