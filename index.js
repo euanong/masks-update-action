@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const rp = require('request-promise');
 
 const url = 'https://cors-anywhere.herokuapp.com/http://covid.gov.pk/';
-const epidata = 'https://storage.googleapis.com/static-covid/static/data-main-v3.json';
+const epidata = 'https://storage.googleapis.com/static-covid/static/data-main-v4.json';
 
 function getVal(cs,sel){
     var elem = cs.find(sel).next();
@@ -67,10 +67,8 @@ function parseData(html){
     
     rp({uri:epidata,gzip:true,json:true})
         .then((json) => {
-            var ests = json["regions"]["pakistan"]["data"]["estimates"]["days"];
-            var dateuse = Object.keys(ests).slice(-1)[0];
-            result["estimated"]["date"] = dateuse;
-            result["estimated"]["cases"] = ests[dateuse]["FT_Infected"];
+            result["estimated"]["date"] = json["created"];
+            result["estimated"]["cases"] = json["regions"]["PK"]["CurrentEstimate"];
             var jsonresult = JSON.stringify(result);
             console.log(jsonresult);
             core.setOutput("jsondata", jsonresult); 
