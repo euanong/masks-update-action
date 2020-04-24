@@ -2,7 +2,9 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const cheerio = require('cheerio');
 const rp = require('request-promise');
+
 const url = 'https://cors-anywhere.herokuapp.com/http://covid.gov.pk/';
+const epidata = 'https://storage.googleapis.com/static-covid/static/data-main-v3.json';
 
 function getVal(cs,sel){
     var elem = cs.find(sel).next();
@@ -21,7 +23,8 @@ function parseData(html){
         cases : {},
         deaths : {},
         recovered : {},
-        tests : {}
+        tests : {},
+        estimated : {},
     };
     
     //elem, text, name1, name2
@@ -61,9 +64,17 @@ function parseData(html){
         }
     }
     result["lastupdated"]=(new Date(arr[1]+" "+arr[2]+" "+arr[3]+" "+arr[4]+":"+arr[5]+" UTC+05:00")).toJSON();
-    var jsonresult = JSON.stringify(result);
-    console.log(jsonresult);
-    core.setOutput("jsondata", jsonresult);
+    
+    rp({uri:epidata,gzip:true,json:true})
+        .then((json) => {
+            var ests = json["regions"]["pakistan"]["data"]["estimates"]["days"];
+            var dateuse = Object.keys(ests).slice(-1)[0];
+            result["estimated"]["date"] = dateuse;
+            result["estimated"]["cases"] = ests[dateuse]["FT_Infected"];
+            var jsonresult = JSON.stringify(result);
+            console.log(jsonresult);
+            core.setOutput("jsondata", jsonresult); 
+        });
     return;
 }
 
