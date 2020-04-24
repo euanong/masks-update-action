@@ -51,7 +51,7 @@ function parseData(html){
     var datestr = cs.find("#date").text();
     var arr = datestr.trim().match(/^LAST UPDATED AT: (\d{1,2}) (\w+), (\d{4}) - (\d{1,2}):(\d{1,2})(\w+)$/);
 
-    if (arr[5].toLowerCase()=="am"){
+    if (arr[6].toLowerCase()=="am"){
         if (arr[4]=="12"){
             arr[4]="0";
         }
@@ -60,7 +60,6 @@ function parseData(html){
             arr[4]=(parseInt(arr[4])+12).toString();
         }
     }
-
     result["lastupdated"]=(new Date(arr[1]+" "+arr[2]+" "+arr[3]+" "+arr[4]+":"+arr[5]+" UTC+05:00")).toJSON();
     var jsonresult = JSON.stringify(result);
     console.log(jsonresult);
