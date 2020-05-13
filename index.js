@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const rp = require('request-promise');
 
 const url = 'https://cors-anywhere.herokuapp.com/http://covid.gov.pk/';
-const epidata = 'https://storage.googleapis.com/static-covid/static/data-balochistan-v4.json';
+const epidata = 'http://storage.googleapis.com/static-covid/static/v4/main/data-v4.json';
 
 function getVal(cs,sel){
     var elem = cs.find(sel).next();
