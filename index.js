@@ -4,7 +4,11 @@ const cheerio = require('cheerio');
 const rp = require('request-promise');
 
 const url = 'https://cors-anywhere.herokuapp.com/http://covid.gov.pk/';
-const epidata = 'http://storage.googleapis.com/static-covid/static/v4/main/data-v4.json';
+const epidata = 'http://storage.googleapis.com/static-covid/static/v4/balochistan/data-v4.json';
+const epidata_pk = 'http://storage.googleapis.com/static-covid/static/v4/balochistan/extdata-PK.json';
+
+const group = "Default_Moderate";
+const name = "Expected spread (100%)";
 
 function getVal(cs,sel){
     var elem = cs.find(sel).next();
@@ -67,11 +71,23 @@ function parseData(html){
     
     rp({uri:epidata,gzip:true,json:true})
         .then((json) => {
-            result["estimated"]["date"] = json["created"];
-            result["estimated"]["cases"] = json["regions"]["PK"]["CurrentEstimate"]["Infectious_mean"];
-            var jsonresult = JSON.stringify(result);
-            console.log(jsonresult);
-            core.setOutput("jsondata", jsonresult); 
+            rp({uri:epidata_pk,gzip:true,json:true})
+                .then((json_pk) => {
+                    var date = new Date();
+                    result["estimated"]["date"] = json["created"];
+                    result["estimated"]["predicted-date"] = date;
+                    var traceind = json_pk["models"]["date_index"].indexOf(date.toISOString().slice(0, 10));
+                    var traces = json_pk["models"]["traces"];
+                    for (var i = 0; i<traces.length; i++){
+                        if (traces[i]["group"]==group && traces[i]["name"]==name){
+                            result["estimated"]["cases"] = Math.round(json["regions"]["PK"]["Population"]*traces[i]["infected"][traceind]);
+                            break;
+                        }
+                    }
+                    var jsonresult = JSON.stringify(result);
+                    console.log(jsonresult);
+                    core.setOutput("jsondata", jsonresult); 
+                });
         });
     return;
 }
