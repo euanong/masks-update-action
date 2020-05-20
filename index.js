@@ -76,11 +76,11 @@ function parseData(html){
                     var date = new Date();
                     result["estimated"]["date"] = json["created"];
                     result["estimated"]["predicted-date"] = date;
-                    var traceind = json_pk["models"]["date_index"].indexOf(date.toISOString().slice(0, 10));
+                    var traceind = json_pk["models"]["date_index"].indexOf(date.toISOString().slice(0, 10))+1; //TODO this +1 is dodgy...
                     var traces = json_pk["models"]["traces"];
                     for (var i = 0; i<traces.length; i++){
                         if (traces[i]["group"]==group && traces[i]["name"]==name){
-                            result["estimated"]["cases"] = Math.round(json["regions"]["PK"]["Population"]*traces[i]["infected"][traceind]);
+                            result["estimated"]["cases"] = Math.round(json["regions"]["PK"]["Population"]*traces[i]["active"][traceind]);
                             break;
                         }
                     }
